@@ -3,13 +3,15 @@ import { Input, Row, Col, Image } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { getGifs } from '../../services'
 import { useDebounce } from '../../utils/useDebounce'
+import { History } from '../history'
 
-export const Homepage = () => {
+export const Homepage = ({ handleAddSearchHistoryEntry, history }) => {
     const [searchValue, setSearchValue] = useState('')
     const [gifs, setGifs] = useState([])
     const [visible, setVisible] = useState(false)
 
     const handleUpdateSearchValue = async (value) => {
+        handleAddSearchHistoryEntry(value)
         setSearchValue(value)
         const gifs = await getGifs(value, 12)
         setGifs(gifs)
@@ -66,6 +68,7 @@ export const Homepage = () => {
                     </Image.PreviewGroup>
                 </div>
             </Row>
+            <History history={history} />
         </>
     )
 }
